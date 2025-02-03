@@ -1,5 +1,6 @@
 import app from ".";
+import { HTTP_PORT } from "@repo/config/config";
 
-app.listen(3001, ()=>{
-    console.log('Server is running on port 3001');
+app.listen(HTTP_PORT, ()=>{
+    console.log(`Server is running on port ${HTTP_PORT}`);
 })
