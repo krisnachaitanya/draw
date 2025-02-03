@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { JWT_SECRET } from "@repo/config";
+import { JWT_SECRET } from "@repo/config/config";
 import { JwtPayload, verify } from "jsonwebtoken";
 
 const isAuth = (req: Request,res: Response,next: NextFunction) => {
