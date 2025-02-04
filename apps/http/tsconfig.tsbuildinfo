@@ -1,0 +1,1 @@
+{"root":["./src/bin.ts","./src/index.ts","./src/controllers/room.controller.ts","./src/controllers/user.controller.ts","./src/middlewares/isauth.ts","./src/routes/room.router.ts","./src/routes/user.router.ts","./src/types/index.d.ts"],"version":"5.7.3"}
