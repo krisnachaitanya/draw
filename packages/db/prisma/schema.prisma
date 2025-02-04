@@ -24,8 +24,7 @@ model User {
 }
 
 model Room {
-  id          String      @id
-  slug        String      @unique
+  slug        String      @id
   createdAt   DateTime    @default(now())
   adminId     String  
   admin       User        @relation(fields: [adminId], references: [id])
@@ -37,6 +36,6 @@ model Chat {
   message     String
   userId      String
   roomId      String
-  room        Room        @relation(fields: [roomId], references: [id])
+  room        Room        @relation(fields: [roomId], references: [slug])
   user        User        @relation(fields: [userId], references: [id])
 }

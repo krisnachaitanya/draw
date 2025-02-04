@@ -22,6 +22,7 @@ export const registerUser = async (req: Request, res: Response) => {
     })
   
     const token = sign(user.id, JWT_SECRET || "");
+    res.cookie("token",token)
     res.json({ token });
     return
   }catch(err){
@@ -54,5 +55,6 @@ export const signinUser = async(req: Request, res: Response) => {
     return
   }
   const token = sign(user?.id, JWT_SECRET || "");
+  res.cookie("token",token)
   res.json({ token });
 };
