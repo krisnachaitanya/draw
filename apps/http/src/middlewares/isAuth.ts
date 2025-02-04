@@ -8,7 +8,7 @@ const isAuth = (req: Request, res: Response, next: NextFunction) => {
     res.json({ message: "Uauthorized" });
   }
   const decoded = verify(token, JWT_SECRET) as JwtPayload;
-  req.userId = decoded.userId;
+  req.userId = decoded.id;
   next();
 };
 

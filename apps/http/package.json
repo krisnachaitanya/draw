@@ -12,17 +12,19 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@repo/config": "workspace:*",
+    "@repo/db": "workspace:*",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
-    "@repo/config": "workspace:*",
-    "@repo/db": "workspace:*"
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "@repo/common": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@repo/common": "workspace:*",
     "@types/jsonwebtoken": "^9.0.8",
     "esbuild": "^0.24.2"
   }
