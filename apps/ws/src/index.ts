@@ -1,26 +1,63 @@
-import { WebSocketServer } from "ws";
-import { JwtPayload, verify } from "jsonwebtoken";
-import { JWT_SECRET, WS_PORT } from "@repo/config/config";
+import WebSocket, { WebSocketServer } from "ws";
+import { WS_PORT } from "@repo/config/config";
+import checkUser from "./utils/checkUser";
 
-console.log(WS_PORT)
+interface User {
+  userId: string;
+  rooms: string[];
+  ws: WebSocket;
+}
+
+console.log(WS_PORT);
 const wss = new WebSocketServer({ port: WS_PORT as number });
 
+const users: User[] = [];
+
 wss.on("connection", (ws, req) => {
-  const url = req.url;
-  if (!url) return;
+  const url = req.url ?? "";
   const params = new URLSearchParams(url.split("?")[1]);
-  const token = params.get("token");
-  if(!token) {
+  const token = params.get("token") ?? "";
+  const userId = checkUser(token);
+  if (!userId) {
     ws.close();
     return;
   }
-  const decoded = verify(token || "",JWT_SECRET);
-  
-  if(!decoded || !(decoded as JwtPayload).userId){
-    ws.close();
-    return;
-  }
+
+  users.push({
+    userId,
+    rooms: [],
+    ws: ws
+  })
+
   ws.on("message", (data) => {
-    ws.send("hello");
+    const message = JSON.parse(data as unknown as string);
+    if (message.type === "join_room") {
+      const user = users.find((a) => a.ws === ws);
+      user?.rooms.push(message.roomId);
+    }
+
+    if (message.type === "leave_room") {
+      const user = users.find((x) => x.ws === ws);
+      if(!user){
+        return;
+      }
+      user.rooms = user?.rooms.filter((x) => x! !== message.roomId);
+    }
+
+    if(message.type === "chat"){
+      const user = users.find((x) => x.ws === ws);
+      if(!user){
+        return;
+      }
+      const room = users.find((x) => x.rooms.includes(message.roomId));
+      if(!room){
+        return;
+      }
+      room.ws.send(JSON.stringify({
+        type: "chat",
+        message: message.message,
+        userId: user.userId
+      }))
+    }
   });
 });

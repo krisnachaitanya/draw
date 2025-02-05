@@ -29,7 +29,7 @@ export const createRoom = async (req: Request, res: Response) => {
     return;
   } catch (err) {
     res.status(411).json({
-      message: "Room already exists with this id",
+      message: "Room already exists",
     });
   }
 };
