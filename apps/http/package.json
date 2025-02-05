@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "esbuild src/bin.ts --bundle --platform=node --outdir=dist",
-    "start": "node dist/bin.js",
+    "start": "node ./dist/bin.js",
     "dev": "npm run build && npm run start"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "dependencies": {
     "@repo/config": "workspace:*",
     "@repo/db": "workspace:*",
+    "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^4.21.2",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@repo/common": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@types/bcrypt": "^5.0.2",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",

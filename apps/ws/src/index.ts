@@ -45,19 +45,18 @@ wss.on("connection", (ws, req) => {
     }
 
     if(message.type === "chat"){
-      const user = users.find((x) => x.ws === ws);
-      if(!user){
-        return;
-      }
-      const room = users.find((x) => x.rooms.includes(message.roomId));
-      if(!room){
-        return;
-      }
-      room.ws.send(JSON.stringify({
-        type: "chat",
-        message: message.message,
-        userId: user.userId
-      }))
+      const roomId = message.roomId;
+      const userId = message.userId;
+
+      users.forEach((user)=>{
+        if(user.rooms.includes(roomId)){
+          user.ws.send(JSON.stringify({
+            type: "chat",
+            message: message.message,
+            userId: userId
+          }))
+        }
+      })
     }
   });
 });
