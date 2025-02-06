@@ -22,14 +22,30 @@ export const createRoom = async (req: Request, res: Response) => {
     const room = await prismaClient.room.create({
       data: {
         slug: parsedData.data.slug,
-        adminId: userId
+        adminId: userId,
       },
     });
-    res.json({ roomId: room.slug });
+    res.json({ roomId: room.id });
     return;
   } catch (err) {
     res.status(411).json({
       message: "Room already exists",
     });
   }
+};
+
+export const getMessages = async (req: Request, res: Response) => {
+  const roomId = Number(req.params.roomId);
+  const messages = await prismaClient.chat.findMany({
+    where: {
+      roomId: roomId
+    },
+    take: 50,
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  res.json(messages);
+  return;
 };

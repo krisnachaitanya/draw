@@ -3,7 +3,7 @@ import { JWT_SECRET } from "@repo/config/config";
 import { Request, Response } from "express";
 import { CreateUserSchema, SignInSchema } from "@repo/common/types";
 import { prismaClient } from "@repo/db/client";
-import { compare, hash } from "bcrypt";
+import { compare, hash } from "bcryptjs";
 
 export const registerUser = async (req: Request, res: Response) => {
   const userData = CreateUserSchema.safeParse(req.body);
