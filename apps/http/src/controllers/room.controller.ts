@@ -38,7 +38,7 @@ export const getMessages = async (req: Request, res: Response) => {
   const roomId = Number(req.params.roomId);
   const messages = await prismaClient.chat.findMany({
     where: {
-      roomId: roomId
+      roomId: roomId,
     },
     take: 50,
     orderBy: {
@@ -47,5 +47,22 @@ export const getMessages = async (req: Request, res: Response) => {
   });
 
   res.json(messages);
+  return;
+};
+
+export const getRoomId = async (req: Request, res: Response) => {
+  const slug = req.params.slug;
+  const room = await prismaClient.room.findFirst({
+    where: {
+      slug,
+    },
+  });
+  if (!room) {
+    res.status(401).json({
+      message: "Room not found",
+    });
+    return;
+  }
+  res.status(200).json({ roomId: room.id });
   return;
 };
